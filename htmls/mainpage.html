@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+{% autoescape true %}
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>LoadVDO Download Youtube video for home entertainment</title>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/mainpage.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="container-fluid mainContainer">
+      <div class="container-fluid headerBar" id="header-bar">
+        <div class="container brandContainer">LoadVDO <span class="brandDescription">Download Youtube video for home entertainment.</span></div>
+      </div>
+      <div class="container contentContainer">
+        <div class="row">
+          <div class="col-md-6 col-md-offset-3 urlInputContainer">
+            <div class="input-group">
+              <input id="url-input" type="text" class="form-control urlInput" placeholder="enter link url eg. http://www.youtube.com/watch?v=sXh676QS1xx">
+              <span class="input-group-btn">
+                <button id="inputButton" class="btn btn-success" type="button">Go!</button>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div id="resultContainer" class="container">
+          <div class="resultNotFound">
+            No results found.
+          </div>
+          <div class="videoNotAvailable">
+            Video not available for loading on Youtube
+          </div>
+          <center class="loadingContainer">
+            <div id="circularG">
+            <div id="circularG_1" class="circularG">
+            </div>
+            <div id="circularG_2" class="circularG">
+            </div>
+            <div id="circularG_3" class="circularG">
+            </div>
+            <div id="circularG_4" class="circularG">
+            </div>
+            <div id="circularG_5" class="circularG">
+            </div>
+            <div id="circularG_6" class="circularG">
+            </div>
+            <div id="circularG_7" class="circularG">
+            </div>
+            <div id="circularG_8" class="circularG">
+            </div>
+            </div>
+          </center>
+          <div id="videoContainer" class="row container">
+
+          </div>
+        </div>
+        <div class="container socialContainer">
+          <center>
+            <div class="socialSubContainer">
+              <a href="https://twitter.com/share" class="twitter-share-button" data-count="vertical"  data-url="http://www.loadvdo.com">Tweet</a>
+              <div class="fb-like" data-href="http://www.loadvdo.com" data-layout="box_count" data-action="like" data-show-faces="false" data-share="false"></div>
+              <div class="g-plusone" data-size="tall" data-href="http://www.loadvdo.com"></div>
+            </div>
+          </center>
+        </div>
+        <div class="navbar navbar-fixed-bottom footerContainer">
+          <center class="copyrightNotice">© 2013 loadvdo.com All Rights Reserved</center>
+        </div>
+      </div>
+    </div>
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <!-- twitter -->
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+     <!-- facebook -->
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+    </script>  
+    <!-- google plus -->
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script>
+
+      var showHideAnimateTime = 500;
+      var isShowHeaderBar = false;
+
+      $( document ).ready(function() {
+        hideAllResult();
+      });
+
+      function haveUrlInput() {
+        var myLength = $("#url-input").val().length;
+        var haveInput = true;
+        if (myLength === 0) {
+          haveInput = false;
+        }
+        return haveInput;
+      }
+
+      function hideHeader() {
+        if(!isShowHeaderBar) {
+          isShowHeaderBar = true;
+          $('#header-bar, .brandContainer').stop();
+          $('#header-bar, .brandContainer').animate({height:0, opacity: 0.0}, showHideAnimateTime);
+        }
+      }
+
+      function showHeader() {
+        isShowHeaderBar = false;        
+        $('#header-bar, .brandContainer').stop();
+        $('#header-bar, .brandContainer').animate({height:150, opacity: 1.0}, showHideAnimateTime);
+      }
+
+      $('#url-input').on('input', function() {
+       if (!haveUrlInput()) {
+          showHeader();
+       } else {
+
+       }
+      });
+
+      function hideAllResult() {
+        $(".videoNotAvailable").hide();
+        $(".resultNotFound").hide();
+        $('.loadingContainer').hide();
+        $('#videoContainer').html('');
+      }
+
+      function isSafari() {
+        return /^((?!chrome).)*safari/i.test(navigator.userAgent);
+      }
+
+      function addVideo(data) {
+        var title = data['title'];
+        var videoUrl = data['url'];
+        var thumb = data['thumb'];
+        var bigThumb = data['bigThumb'];
+        var description = data['description'];
+        var data = data['data'];
+        if (bigThumb.length) {
+          thumb = bigThumb;
+        }
+        $("#videoContainer").append("<div class='videoTitle'><a href='"+videoUrl+"''>"+title+"</a></div>");
+        $
+        $("#videoContainer").append("<div class='col-md-4 col-md-offset-4'><a href='"+videoUrl+"''><img class='videoThumb' src='"+thumb+"' alt='Responsive image'></a></div>");
+        $("#videoContainer").append("<div id='videoUrlContainer' class='col-md-4 col-md-offset-4'></div>");
+        $("#videoUrlContainer").append("<div id='videoUrlList' class='list-group'><div>");
+        for (var i = 0; i < data.length; i++) {
+          var videoItem = data[i];
+          var resolution = videoItem['resolution'];
+          var extensions = videoItem['extensions'];
+          var downloadUrl = videoItem['downloadUrl'];
+
+          var videoData = {
+            "resolution" : resolution,
+            "extensions" : extensions,
+            "downloadUrl" : downloadUrl,
+            "title" : title
+          };
+// To download an animation or video, simply right click on the link and choose "save target as" from the pop-up menu.  You may then save the animation or video on your hard-drive. Be sure to note the location on the drive you save the image to
+          var strVideoItem = JSON.stringify(videoData);
+          if (extensions != 'webm') {
+            $("#videoUrlList").append("<div href='#' class='list-group-item'>Resolution = "+resolution+"<span class='pull-right'><button id='"+strVideoItem+"' onClick='downloadVideo(this); return false;' type='button' class='btn btn-success btn-xs loadVideoButton'>Download ."+extensions.toUpperCase()+"</button></span></div>");
+          }
+        }
+      }
+
+      function downloadVideo(button) {
+        var strVideoItem = $(button).attr('id');
+        var item = JSON.parse(strVideoItem);
+
+        var fileURL = item['downloadUrl'];
+        var fileName = item['title']+'.'+item['extensions'];
+
+        // for non-IE
+        // if (!window.ActiveXObject) {
+        //     var save = document.createElement('a');
+        //     save.href = fileURL;
+        //     save.target = '_blank';
+        //     save.download = fileName || 'unknown';
+
+        //     var event = document.createEvent('Event');
+        //     event.initEvent('click', true, true);
+        //     save.dispatchEvent(event);
+        //     (window.URL || window.webkitURL).revokeObjectURL(save.href);
+        // }
+
+        // // for IE
+        // else if ( !! window.ActiveXObject && document.execCommand)     {
+        //     var _window = window.open(fileURL, '_blank');
+        //     _window.document.close();
+        //     _window.document.execCommand('SaveAs', true, fileName || fileURL)
+        //     _window.close();
+        // }
+
+        // var hyperlink = document.createElement('a');
+        // hyperlink.href = fileURL;
+        // hyperlink.target = '_blank';
+        // hyperlink.download = fileName || fileUrl;
+
+        // var mouseEvent = new MouseEvent('click', {
+        //   view: window,
+        //   bubbles: true,
+        //   cancelable: true
+        // });
+
+        // hyperlink.dispatchEvent(mouseEvent);
+        // (window.URL || window.webkitURL).revokeObjectURL(hyperlink.href);
+
+
+    // for non-IE
+        if (!window.ActiveXObject) {
+            var save = document.createElement('a');
+            save.href = fileURL;
+            save.target = '_blank';
+            save.download = fileName || fileURL;
+            var evt = document.createEvent('MouseEvents');
+            evt.initMouseEvent('click', true, true, window, 1, 0, 0, 0, 0,
+                false, false, false, false, 0, null);
+            save.dispatchEvent(evt);
+            (window.URL || window.webkitURL).revokeObjectURL(save.href);
+        }
+
+        // for IE
+        else if ( !! window.ActiveXObject && document.execCommand)     {
+            var _window = window.open(fileURL, "_blank");
+            _window.document.close();
+            _window.document.execCommand('SaveAs', true, fileName || fileURL)
+            _window.close();
+        }
+
+      }
+
+      function getVideo() {
+        if (haveUrlInput()) {
+          hideAllResult();
+          $('.loadingContainer').show();
+          //hideHeader();
+          var url = $("#url-input").val();
+          $.ajax({
+            type: 'POST',
+            url: '/get_video',
+            data: { 'youtube_url' : url },
+            dataType: 'json',
+            success: function(jsonData) {
+              hideAllResult();
+              var success = jsonData['success'];
+              if (success) {
+                addVideo(jsonData);
+              } else {
+                $(".resultNotFound").show();
+              }
+            },
+            error: function() {
+              $(".resultNotFound").show();
+              $(".videoNotAvailable").show();              
+              $('.loadingContainer').hide();
+            }
+          });
+        } 
+      }
+
+      $('#url-input').keypress(function(event){
+        if(event.keyCode == 13){
+          $('#inputButton').click();
+        }
+      });
+
+      $('#inputButton').on('click', function(event) {
+        getVideo();
+      });
+
+    </script>
+
+  </body>
+</html>
+{% endautoescape %}
