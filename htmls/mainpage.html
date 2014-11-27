@@ -24,6 +24,43 @@
               </span>
             </div>
           </div>
+          <div class="col-md-6 col-md-offset-3" id="howToContainer">
+
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h1 class="panel-title">How to use download video from Youtube</h1>
+                </div>
+                <div class="panel-body text-info">
+                  <dl>
+                    <dt>1st Solution :</dt>
+                    <br>
+                    <dd>
+                      <blockquote>
+                        <p class="howtoblockquoteText">
+                          Place Youtube's video url or video code ( eg. <span class="text-primary howtoImportantText">www.https://www.youtube.com/watch?v=IiJNi0Vsaxx</span> or <span class="text-primary howtoImportantText">IiJNi0Vsaxx</span> ) to text box above then press <kbd>Enter</kbd> or click Go!
+                        </p>
+                      </blockquote>
+                      
+                    </dd>
+                  </dl>
+
+                  <dl>
+                    <dt>2nd Solution :</dt>
+                    <br>
+                    <dd>
+                      <blockquote>
+                        <p class="howtoblockquoteText">
+                          Between watching Youtube's video go to address bar then change youtube to loadvdo, For example from "https://www.<span class="text-danger howtoImportantText">" youtube "</span>.com/watch?v=nIR-VRyp0xx" to "https://www.<span class="text-success howtoImportantText">" loadvdo "</span>.com/watch?v=nIR-VRyp0Wk" then press <kbd>Enter</kbd> or click Go!
+                        </p>
+                      </blockquote>
+                      
+                    </dd>
+                  </dl>
+
+                </div>
+            </div>
+
+          </div>
         </div>
         <div id="resultContainer" class="container">
           <div class="resultNotFound" style="display=none;">
@@ -179,7 +216,7 @@
             "downloadUrl" : downloadUrl,
             "title" : title
           };
-// Tip To download an video, simply right click on the link and choose "Download Linked File As.." from the pop-up menu
+
           var strVideoItem = JSON.stringify(videoData);
           if (extensions != 'webm') {
             if (isSafari ()) {
@@ -199,52 +236,33 @@
         var fileName = item['title']+'.'+item['extensions'];
 
         // for non-IE
-    if (!window.ActiveXObject) {
-        var save = document.createElement('a');
-        save.href = fileURL;
-        save.target = '_blank';
-        save.download = fileName || 'unknown';
+        if (!window.ActiveXObject) {
+            var save = document.createElement('a');
+            save.href = fileURL;
+            save.target = '_blank';
+            save.download = fileName || 'unknown';
 
-        var event = document.createEvent('Event');
-        event.initEvent('click', true, true);
-        save.dispatchEvent(event);
-        (window.URL || window.webkitURL).revokeObjectURL(save.href);
-    }
+            var event = document.createEvent('Event');
+            event.initEvent('click', true, true);
+            save.dispatchEvent(event);
+            (window.URL || window.webkitURL).revokeObjectURL(save.href);
+        }
 
-    // for IE
-    else if ( !! window.ActiveXObject && document.execCommand)     {
-        var _window = window.open(fileURL, '_blank');
-        _window.document.close();
-        _window.document.execCommand('SaveAs', true, fileName || fileURL)
-        _window.close();
-    }
-
-
-    // // for non-IE
-    //     if (!window.ActiveXObject) {
-    //         var save = document.createElement('a');
-    //         save.href = fileURL;
-    //         save.target = '_blank';
-    //         save.download = fileName || fileURL;
-    //         var evt = document.createEvent('MouseEvents');
-    //         evt.initMouseEvent('click', true, true, window, 1, 0, 0, 0, 0,
-    //             false, false, false, false, 0, null);
-    //         save.dispatchEvent(evt);
-    //         (window.URL || window.webkitURL).revokeObjectURL(save.href);
-    //     }
-
-    //     // for IE
-    //     else if ( !! window.ActiveXObject && document.execCommand)     {
-    //         var _window = window.open(fileURL, "_blank");
-    //         _window.document.close();
-    //         _window.document.execCommand('SaveAs', true, fileName || fileURL)
-    //         _window.close();
-    //     }
+        // for IE
+        else if ( !! window.ActiveXObject && document.execCommand)     {
+            var _window = window.open(fileURL, '_blank');
+            _window.document.close();
+            _window.document.execCommand('SaveAs', true, fileName || fileURL)
+            _window.close();
+        }
 
       }
 
       function getVideo() {
         if (haveUrlInput()) {
+          $('#howToContainer').animate({height:0, opacity: 0.0}, showHideAnimateTime, function() {
+            $('#howToContainer').hide();
+          });
           hideAllResult();
           $('.loadingContainer').show();
           //hideHeader();
