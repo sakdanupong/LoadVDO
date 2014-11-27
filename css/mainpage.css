@@ -250,6 +250,10 @@ transform:scale(.3)}
 	text-align: center;
 }
 
+#tipContainer {
+	margin-top: 20px;
+}
+
 .videoDes {
 	margin-top: 20px;
 	text-align: center;
