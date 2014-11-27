@@ -134,7 +134,15 @@
       }
 
       function isSafari() {
-        return /^((?!chrome).)*safari/i.test(navigator.userAgent);
+        var isSafari = false;
+        var ua = navigator.userAgent.toLowerCase(); 
+        if (ua.indexOf('safari') != -1) { 
+          if (ua.indexOf('chrome') > -1) {
+          } else {
+            isSafari = true;
+          }
+         }
+        return isSafari;
       }
 
       function addVideo(data) {
@@ -164,10 +172,14 @@
             "downloadUrl" : downloadUrl,
             "title" : title
           };
-// To download an animation or video, simply right click on the link and choose "save target as" from the pop-up menu.  You may then save the animation or video on your hard-drive. Be sure to note the location on the drive you save the image to
+// Tip To download an video, simply right click on the link and choose "Download Linked File As.." from the pop-up menu.  You may then save the animation or video on your hard-drive. Be sure to note the location on the drive you save the image to
           var strVideoItem = JSON.stringify(videoData);
           if (extensions != 'webm') {
-            $("#videoUrlList").append("<div href='#' class='list-group-item'>Resolution = "+resolution+"<span class='pull-right'><button id='"+strVideoItem+"' onClick='downloadVideo(this); return false;' type='button' class='btn btn-success btn-xs loadVideoButton'>Download ."+extensions.toUpperCase()+"</button></span></div>");
+            if (isSafari ()) {
+              $("#videoUrlList").append("<div href='#' class='list-group-item'>Resolution = "+resolution+"<span class='pull-right'><a href='"+downloadUrl+"'>Download</a></span></div>");
+            } else {
+              $("#videoUrlList").append("<div href='#' class='list-group-item'>Resolution = "+resolution+"<span class='pull-right'><button id='"+strVideoItem+"' onClick='downloadVideo(this); return false;' type='button' class='btn btn-success btn-xs loadVideoButton'>Download ."+extensions.toUpperCase()+"</button></span></div>");
+            }
           }
         }
       }
@@ -180,61 +192,47 @@
         var fileName = item['title']+'.'+item['extensions'];
 
         // for non-IE
-        // if (!window.ActiveXObject) {
-        //     var save = document.createElement('a');
-        //     save.href = fileURL;
-        //     save.target = '_blank';
-        //     save.download = fileName || 'unknown';
+    if (!window.ActiveXObject) {
+        var save = document.createElement('a');
+        save.href = fileURL;
+        save.target = '_blank';
+        save.download = fileName || 'unknown';
 
-        //     var event = document.createEvent('Event');
-        //     event.initEvent('click', true, true);
-        //     save.dispatchEvent(event);
-        //     (window.URL || window.webkitURL).revokeObjectURL(save.href);
-        // }
+        var event = document.createEvent('Event');
+        event.initEvent('click', true, true);
+        save.dispatchEvent(event);
+        (window.URL || window.webkitURL).revokeObjectURL(save.href);
+    }
 
-        // // for IE
-        // else if ( !! window.ActiveXObject && document.execCommand)     {
-        //     var _window = window.open(fileURL, '_blank');
-        //     _window.document.close();
-        //     _window.document.execCommand('SaveAs', true, fileName || fileURL)
-        //     _window.close();
-        // }
-
-        // var hyperlink = document.createElement('a');
-        // hyperlink.href = fileURL;
-        // hyperlink.target = '_blank';
-        // hyperlink.download = fileName || fileUrl;
-
-        // var mouseEvent = new MouseEvent('click', {
-        //   view: window,
-        //   bubbles: true,
-        //   cancelable: true
-        // });
-
-        // hyperlink.dispatchEvent(mouseEvent);
-        // (window.URL || window.webkitURL).revokeObjectURL(hyperlink.href);
+    // for IE
+    else if ( !! window.ActiveXObject && document.execCommand)     {
+        var _window = window.open(fileURL, '_blank');
+        _window.document.close();
+        _window.document.execCommand('SaveAs', true, fileName || fileURL)
+        _window.close();
+    }
 
 
-    // for non-IE
-        if (!window.ActiveXObject) {
-            var save = document.createElement('a');
-            save.href = fileURL;
-            save.target = '_blank';
-            save.download = fileName || fileURL;
-            var evt = document.createEvent('MouseEvents');
-            evt.initMouseEvent('click', true, true, window, 1, 0, 0, 0, 0,
-                false, false, false, false, 0, null);
-            save.dispatchEvent(evt);
-            (window.URL || window.webkitURL).revokeObjectURL(save.href);
-        }
+    // // for non-IE
+    //     if (!window.ActiveXObject) {
+    //         var save = document.createElement('a');
+    //         save.href = fileURL;
+    //         save.target = '_blank';
+    //         save.download = fileName || fileURL;
+    //         var evt = document.createEvent('MouseEvents');
+    //         evt.initMouseEvent('click', true, true, window, 1, 0, 0, 0, 0,
+    //             false, false, false, false, 0, null);
+    //         save.dispatchEvent(evt);
+    //         (window.URL || window.webkitURL).revokeObjectURL(save.href);
+    //     }
 
-        // for IE
-        else if ( !! window.ActiveXObject && document.execCommand)     {
-            var _window = window.open(fileURL, "_blank");
-            _window.document.close();
-            _window.document.execCommand('SaveAs', true, fileName || fileURL)
-            _window.close();
-        }
+    //     // for IE
+    //     else if ( !! window.ActiveXObject && document.execCommand)     {
+    //         var _window = window.open(fileURL, "_blank");
+    //         _window.document.close();
+    //         _window.document.execCommand('SaveAs', true, fileName || fileURL)
+    //         _window.close();
+    //     }
 
       }
 

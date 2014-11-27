@@ -68,7 +68,7 @@ class GetVideo(webapp2.RequestHandler):
 			thumb = video.thumb
 			description = video.description;
 			videoid = video.videoid
-			streams = video.videostreams
+			streams = video.streams
 			bigThumb = video.bigthumb
 			bigthumbhd = video.bigthumbhd
 			for s in streams:
