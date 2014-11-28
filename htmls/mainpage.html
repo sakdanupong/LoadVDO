@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="author" content="loadvideo">
+    <meta name="author" content="loadvdo">
     <meta name="keywords" content="download youtube videos, youtube downloader, save youtube videos, free, offline">
     <meta name="description" content="Download Youtube Videos to home entertainment. save youtube for offline">
     <title>LoadVDO Download Youtube video for home entertainment</title>
@@ -31,7 +31,7 @@
 
             <div class="panel panel-info">
                 <div class="panel-heading">
-                    <h1 class="panel-title">How to use download video from Youtube</h1>
+                    <h1 class="panel-title">How to download video from Youtube</h1>
                 </div>
                 <div class="panel-body text-info">
                   <dl>
@@ -126,6 +126,13 @@
     </script>  
     <!-- google plus -->
     <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <!-- infolinks -->
+    <script type="text/javascript">
+    var infolinks_pid = 2265428;
+    var infolinks_wsid = 0;
+    </script>
+    <script type="text/javascript" src="http://resources.infolinks.com/js/infolinks_main.js"></script>
+
     <script>
 
       var showHideAnimateTime = 500;
@@ -133,6 +140,12 @@
 
       $( document ).ready(function() {
         hideAllResult();
+        var vidId = '{{ videoid }}';
+        if (vidId.length > 0) {
+          $('#howToContainer').hide();
+          $("#url-input").val(vidId);
+          getVideo();
+        }
       });
 
       function haveUrlInput() {

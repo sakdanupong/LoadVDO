@@ -40,9 +40,18 @@ JINJA_ENVIRONMENT.filters['loadVideo']=loadVideo
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
+    	code = self.request.get("v")
+    	videoCode = ''
+    	if code is not None:
+    		videoCode = code
+    		
+    	template_values = {
+            'videoid': videoCode,
+        }
+
         template = JINJA_ENVIRONMENT.get_template('mainpage.html')
-        # self.response.write(template.render(template_values))
-        self.response.write(template.render())
+        self.response.write(template.render(template_values))
+        # self.response.write(template.render())
 
 class GetVideo(webapp2.RequestHandler):
 	def post(self):
@@ -101,5 +110,6 @@ class GetVideo(webapp2.RequestHandler):
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
-    ('/get_video', GetVideo)
+    ('/get_video', GetVideo),
+    ('/watch', MainHandler)
 ], debug=True)
