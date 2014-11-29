@@ -199,6 +199,28 @@
         return isChorme;
       }
 
+      function isSafari() {
+        var isSafari = false;
+        var ua = navigator.userAgent.toLowerCase(); 
+        if (ua.indexOf('safari') != -1) { 
+          if (ua.indexOf('chrome') > -1) {
+          } else {
+            isSafari = true;
+          }
+         }
+        return isSafari;
+      }
+
+      function isIE() {
+        var ua = window.navigator.userAgent;
+        var msie = ua.indexOf("MSIE ");
+
+        if (msie > 0) 
+            return true
+        else
+            return false;
+        }
+
       function addVideo(data) {
         var title = data['title'];
         var videoUrl = data['url'];
@@ -212,9 +234,14 @@
         $("#videoContainer").append("<div class='videoTitle'><a href='"+videoUrl+"''>"+title+"</a></div>");
         $
         $("#videoContainer").append("<div class='col-md-4 col-md-offset-4'><a href='"+videoUrl+"''><img class='videoThumb' src='"+thumb+"' alt='Responsive image'></a></div>");
-        if (!isChorme()) {
+        if (!isIE() && !isChorme()) {
+          var saveLinkAs = "'Download Linked File As..'";
+          if (!isSafari()) {
+            saveLinkAs = "'Save Link File As' or 'Save Target As'";
+          }
+
           $("#videoContainer").append("<div id='tipContainer' class='col-md-6 col-md-offset-3'></div>")
-          $("#tipContainer").append("<div class='alert alert-success alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert'><span aria-hidden='true'>&times;</span><span class='sr-only'>Close</span></button><strong>Tip:</strong> To download an video, simply right click on the link below and choose 'Download Linked File As..' from the pop-up menu.</div>");          
+          $("#tipContainer").append("<div class='alert alert-success alert-dismissible' role='alert'><button type='button' class='close' data-dismiss='alert'><span aria-hidden='true'>&times;</span><span class='sr-only'>Close</span></button><strong>Tip:</strong> To download an video, simply right click on the 'Link' below and choose "+saveLinkAs+" from the pop-up menu.</div>");          
         }
         $("#videoContainer").append("<div id='videoUrlContainer' class='col-md-4 col-md-offset-4'></div>");
 
@@ -237,6 +264,10 @@
           var strVideoItem = JSON.stringify(videoData);
           if (extensions != 'webm') {
             if (!isChorme ()) {
+              var linkName = 'Link'
+              if (isIE()) {
+                var linkName = 'Download'
+              }
               $("#videoUrlList").append("<div href='#' class='list-group-item'>Resolution = "+resolution+" ."+extensions+"<span class='pull-right'><a href='"+downloadUrl+"'>Link</a></span></div>");
             } else {
               $("#videoUrlList").append("<div href='#' class='list-group-item'>Resolution = "+resolution+"<span class='pull-right'><button id='"+strVideoItem+"' onClick='downloadVideo(this); return false;' type='button' class='btn btn-success btn-xs loadVideoButton'>Download ."+extensions.toUpperCase()+"</button></span></div>");
